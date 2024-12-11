@@ -43,6 +43,7 @@
 
                     if($_POST["contraseña"]===$_POST["rcontraseña"]){
                         $contraseña = $_POST["contraseña"];
+                        $contraseñaCifrada = password_hash($contraseña,PASSWORD_BCRYPT);
                     };
 
                     if($diferenciaFechas->y >=16){
@@ -52,7 +53,7 @@
                     }
 
                     $sql = $baseDatos->prepare("INSERT into usuarios (correo,contraseña,nombre,apellidos,f_nacimiento) values (?,?,?,?,?)");
-                    $resultado = $sql->execute(array($_POST["email"],$contraseña,$_POST["nombre"],$_POST["apellidos"],$fechaNacimiento->format("Y-m-d")));
+                    $resultado = $sql->execute(array($_POST["email"],$contraseñaCifrada,$_POST["nombre"],$_POST["apellidos"],$fechaNacimiento->format("Y-m-d")));
                     if(!isset($contraseña)||!$estadoFecha ||!$resultado){
                         echo "<div class='mensaje'>
                                 <h2>¡¡¡REGISTRO INVALIDO!!!</h2>

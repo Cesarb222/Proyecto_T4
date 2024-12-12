@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorMessage = "Revisar Email o Contraseña";
         }
     }
+
     if (isset($_POST["aceptar"])) {
         $cookie_value = "aceptado";
         setcookie($cookie_name, $cookie_value, time() + 3600, "/"); 
@@ -22,48 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-<?php
-        require "conexion.php";
-
-        try{
-            $baseDatos = new PDO($cadena_conexion,$usuario,$clave,$errmode);
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
-                if(isset($_POST["registro"])){
-                    $baseDatos->beginTransaction();
-                    $contraseña;
-                    $fecha = new DateTime();
-                    $fechaNacimiento = new DateTime($_POST["fechaNacimiento"]);
-                    $diferenciaFechas = $fechaNacimiento->diff($fecha);
-                    $estadoFecha;
-
-                    if($_POST["contraseña"]===$_POST["rcontraseña"]){
-                        $contraseña = $_POST["contraseña"];
-                        $contraseñaCifrada = password_hash($contraseña,PASSWORD_BCRYPT);
-                    };
-
-                    if($diferenciaFechas->y >=16){
-                        $estadoFecha = true;
-                    } else{
-                        $estadoFecha = false;
-                    }
-
-                    $sql = $baseDatos->prepare("INSERT into usuarios (correo,contraseña,nombre,apellidos,f_nacimiento) values (?,?,?,?,?)");
-                    $resultado = $sql->execute(array($_POST["email"],$contraseñaCifrada,$_POST["nombre"],$_POST["apellidos"],$fechaNacimiento->format("Y-m-d")));
-                    if(!isset($contraseña)||!$estadoFecha ||!$resultado){
-                        $baseDatos->rollBack();
-                        echo "esto no funciona";
-                    }else{
-                        $baseDatos->commit();
-                        session_start();
-                        $_SESSION["correoRegistro"]=$_POST["email"];
-                        header("Location: confirmacionCorreo.php");
-                    }
-                }
-            }
-        }catch(PDOException $e){
-            echo  "error con la base de datos: ".$e->getMessage();
-        } 
-    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,30 +36,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="maincontent">
         <div class="login-box">
             <div class="revisar">
-                <h3>Crear cuenta</h3>
-                <p>Tienes ya una cuenta?
-                    <a href="Login.php">Login</a>
+                <h3>Ininciar Seson</h3>
+                <p>No tienes cuenta?
+                    <a href="Registro.php">Registrarse</a>
                 </p>   
             </div>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="formulario-registro" method="POST">
                 <input type="text" name="email" placeholder="Email" required>
                 <input type="password" name="contraseña" placeholder="Password" required>
                 <input type="password" name="rcontraseña" placeholder="Repetir Password" required>
-                <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="text" name="apellidos" placeholder="Apellidos" required>
-                <input type="date" name="fechaNacimiento"required>
                 <p class="coincidir">
                     <?php
                         if (isset($errorMessage)) {
                             echo $errorMessage;
-                        };
+                        }
                     ?>
                 </p>
                 <div class="checkbox-container">
                     <input type="checkbox" class="checkbox" name="checkbox">
                     <label for="checkbox">Acepto recibir ofertas y noticias de los últimos juegos</label>
                 </div>
-                <input type="submit" value="Crear cuenta" class="registrarse" name="registro">
+                <input type="submit" value="Iniciar sesion" class="registrarse" name="registro">
+                <div class="division"><hr><p>or</p><hr></div>
+            <div class="sesion">
+                <a href="https://accounts.google.com/AccountChooser/signinchooser?service=CPanel&continue=https%3A%2F%2Fadmin.google.com%2Fctech.mx%2FDashboard&hl=es&ddm=1&flowName=GlifWebSignIn&flowEntry=AccountChooser"><div class="sesion1"><img src="../imagenes/icons8-logo-de-google-48.png"></div></a>
+                <div class="sesion2"><a href="https://www.apple.com/es/mac/"><img src="../imagenes/icons8-mac-os-50.png"></a></div>
+                <div class="sesion3"><a href="https://www.facebook.com/login/?locale=es_ES"><img src="../imagenes/facebook.png"></a></div>
+            </div>
             </form>
         </div>
     </div>
@@ -169,7 +131,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>   
         </div> -->
     </div>
-    
+    <?php
+        require "conexion.php";
+
+        try{
+            $baseDatos = new PDO($cadena_conexion,$usuario,$clave,$errmode);
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                if(isset($_POST["registro"])){
+                    $baseDatos->beginTransaction();
+                    $contraseña;
+                    $fecha = new DateTime();
+                    $fechaNacimiento = new DateTime($_POST["fechaNacimiento"]);
+                    $diferenciaFechas = $fechaNacimiento->diff($fecha);
+                    $estadoFecha;
+
+                    if($_POST["contraseña"]===$_POST["rcontraseña"]){
+                        $contraseña = $_POST["contraseña"];
+                        $contraseñaCifrada = password_hash($contraseña,PASSWORD_BCRYPT);
+                    };
+
+                    if($diferenciaFechas->y >=16){
+                        $estadoFecha = true;
+                    } else{
+                        $estadoFecha = false;
+                    }
+
+                    $sql = $baseDatos->prepare("INSERT into usuarios (correo,contraseña,nombre,apellidos,f_nacimiento) values (?,?,?,?,?)");
+                    $resultado = $sql->execute(array($_POST["email"],$contraseñaCifrada,$_POST["nombre"],$_POST["apellidos"],$fechaNacimiento->format("Y-m-d")));
+                    if(!isset($contraseña)||!$estadoFecha ||!$resultado){
+                        $baseDatos->rollBack();
+                        echo "esto no funciona";
+                    }else{
+                        $baseDatos->commit();
+                    }
+                }
+            }
+        }catch(PDOException $e){
+            echo  "error con la base de datos: ".$e->getMessage();
+        } 
+    ?>
     <script src="js.js"></script>
 </body>
 </html>

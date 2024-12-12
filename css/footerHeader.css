@@ -1,0 +1,144 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: blueviolet;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header{
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    background-color: black;
+}
+
+.footer{
+    background-color:rgb(67, 0, 155) ;
+    margin-top: 10px;
+    min-width: 300px;
+}
+
+.metodos{
+    height: 40px;
+    padding: 5px 0 5px 0;
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 10px;
+}
+
+.informacion-general{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: 
+    "foot1 foot2 foot3 foot4 foot5"
+    "foot6 foot6 foot6 foot6 foot6";
+    width: 100%;
+    padding: 0;
+}
+.informacion-footer{
+    color: rgb(201, 190, 190);
+    list-style: none;
+    padding: 5px;
+}
+.foot1{
+    grid-area: foot1;
+    margin-left: 10px;
+}
+
+.foot2{
+    grid-area: foot2;
+}
+.foot3{
+    grid-area: foot3;
+}
+.foot4{
+    grid-area: foot4;
+
+}
+.foot5{
+    grid-area: foot5;
+    display: flex;
+    flex-direction: column;
+}
+.foot6{
+    grid-area: foot6;
+}
+.informacion-general ul li{
+    margin-bottom: 5%;
+    cursor: pointer;
+    color: rgb(134, 143, 151);
+}
+.informacion-general ul li:hover{
+    color: rgb(29, 30, 31);
+}
+
+.informacion-footer .redes-footer{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.informacion-footer .redes-footer li a img{
+    height: 50px;
+}
+
+.informacion-footer .redes-footer :nth-child(1) a img{
+    height: 40px;
+    margin-top: 5px;
+}
+
+.informacion-footer .redes-footer :nth-child(4) a img{
+    height: 48px;
+}
+
+.div{
+    margin-top: 16px;
+}
+.contacto{
+    display: flex;
+    align-content: center;
+}
+.contacto form{
+    display: flex;
+    flex-direction: column;
+}
+.contacto input[type="text"]{
+    background-color: white;
+    border: none;
+    padding: 10px 0 10px 15px;
+    color: black;
+    cursor: pointer;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.contacto .contacta:focus{
+    border: none;
+    outline: none;
+}
+
+.contacto .contacta:focus::placeholder{
+    color: transparent;
+}
+
+.contacto input[type="button"] {
+    margin: 0 5px 0 0 ; 
+    width: 60px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.copy {
+    text-align: center;
+    margin-top: 20px;
+    flex-shrink: 0; 
+    color: rgb(134, 143, 151);
+
+}
+.copy a{
+    color: black;
+}

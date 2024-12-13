@@ -19,7 +19,7 @@
     $email->Username = "cesar33jverne@gmail.com"; //Correo desde el que se envia
 
     //contraseña que nos ha salido en google en mi caso esta en un .txt en el escritorio.
-    $email->Password="kkjm tzwi cymo bfwi"; 
+    $email->Password=""; 
 
     $email->setFrom("cesar33jverne@gmail.com","BARCELONA");
     //El segundo argumento es (opcional) y es el nombre que tendra el que lo envia al que lo recibe.
